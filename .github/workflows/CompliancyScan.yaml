@@ -15,4 +15,5 @@ jobs:
       with:
         scopes: |
           /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
-        
+        scopes-ignore: |
+          /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
