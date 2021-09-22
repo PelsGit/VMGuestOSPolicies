@@ -76,12 +76,13 @@ jobs:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true
 
-    - name: Azure PowerShell Action
-      uses: Azure/powershell@v1
+    - name: Deploy bicep to Azure
+      uses: Azure/cli@1.0.4
       with:
         inlineScript: |
-          New-AzResourceGroupDeployment -ResourceGroupName ${{ env.resourceGroupName }} -TemplateFile ./main.bicep -verbose -Force
-        azPSVersion: latest
+              az deployment group create  \
+              –template-file  ${{ env.bicepfilePath }}  \
+              –resource-group  ${{ env.resourceGroupName }}
 
   Compliancy-Scan:
     runs-on: ubuntu-latest
