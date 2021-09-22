@@ -1,5 +1,9 @@
 on: push
 
+env:
+  resourceGroupName: Dev-Pels-01
+  bicepfilePath: main.bicep
+
 jobs:
   install-dependencies:
     name: Install dependencies
@@ -11,7 +15,7 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
 
-  run-depoyment:    
+  run-deployment:    
     runs-on: ubuntu-latest
     needs: install-dependencies
     steps:
@@ -21,22 +25,24 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true
-    
-    - name: Azure PowerShell Action
+
+    # Deploy Resource Group
+    - name: Create Resource Group
       uses: Azure/powershell@v1
       with:
-        # Specify the Az PowerShell script here.
         inlineScript: |
           Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
           New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe" -Force
-        # Azure PS version to be used to execute the script, example: 1.8.0, 2.8.0, 3.4.0. To use the latest version, specify "latest".
         azPSVersion: 
           latest
-    
+
+  Compliancy-Scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: run-depoyment
+    steps:
     - name: Check for resource compliance
       uses: azure/policy-compliance-scan@v0
       with:
         scopes: |
-          /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
-        scopes-ignore: |
           /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
