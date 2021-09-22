@@ -15,18 +15,16 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
 
-  run-deployment:    
+  Create-ResourceGroup:    
     runs-on: ubuntu-latest
     needs: install-dependencies
-    steps:
-    # Azure Login       
+    steps:  
     - name: Login to Azure
       uses: azure/login@v1
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true
 
-    # Deploy Resource Group
     - name: Create Resource Group
       uses: Azure/powershell@v1
       with:
@@ -36,10 +34,44 @@ jobs:
         azPSVersion: 
           latest
 
+  Test-Deployment:
+    runs-on: ubuntu-latest
+    needs: Create-ResourceGroup
+    steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true
+
+    - name: build Bicep file
+      uses: Azure/cli@1.0.4
+      with:
+        inlineScript: |
+          az bicep build –file ${{ env.bicepfilePath }} –outfile ./main.json
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        path: ./main.json 
+
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          New-AzResourceGroupDeployment -ResourceGroupName Dev-Pels-02 -TemplateFile ./main.json -WhatIf
+        azPSVersion: latest
+
   Compliancy-Scan:
     runs-on: ubuntu-latest
-    needs: run-deployment
+    needs: Create-ResourceGroup
     steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true
+
     - name: Check for resource compliance
       uses: azure/policy-compliance-scan@v0
       with:
