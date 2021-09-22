@@ -82,7 +82,7 @@ jobs:
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          New-AzResourceGroupDeployment -ResourceGroupName ${{ env.resourceGroupName }} -TemplateFile ./main.json -WhatIf
+          New-AzResourceGroupDeployment -ResourceGroupName ${{ env.resourceGroupName }} -TemplateFile ./main.json -verbose -Force
         azPSVersion: latest
 
   Compliancy-Scan:
