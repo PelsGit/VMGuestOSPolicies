@@ -1,7 +1,17 @@
 on: push
 
 jobs:
-  assess-policy-compliance:    
+  install-dependencies:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install from PSGallery
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+
+  run-depoyment:    
     runs-on: ubuntu-latest
     steps:
     # Azure Login       
