@@ -10,6 +10,15 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}} 
     
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        scopes: |
+          /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
+        # Specify the Az PowerShell script here.
+        inlineScript: 
+          New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe"
+    
     - name: Check for resource compliance
       uses: azure/policy-compliance-scan@v0
       with:
