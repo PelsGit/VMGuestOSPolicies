@@ -38,8 +38,7 @@ jobs:
 
   Compliancy-Scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: run-depoyment
+    needs: run-deployment
     steps:
     - name: Check for resource compliance
       uses: azure/policy-compliance-scan@v0
