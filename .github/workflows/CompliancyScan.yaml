@@ -18,6 +18,13 @@ jobs:
         # Specify the Az PowerShell script here.
         inlineScript: 
           New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe"
+        # Azure PS version to be used to execute the script, example: 1.8.0, 2.8.0, 3.4.0. To use the latest version, specify "latest".
+        azPSVersion: 
+          latest
+        errorActionPreference:
+          Stop
+        failOnStandardError:
+          false
     
     - name: Check for resource compliance
       uses: azure/policy-compliance-scan@v0
