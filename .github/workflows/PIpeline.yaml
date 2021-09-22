@@ -29,7 +29,7 @@ jobs:
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
+          Select-AzSubscription ${{secrets.AZURE_SUBSCRIPTIONID}}
           New-AzResourceGroup -Name ${{ env.resourceGroupName }} -Location "West Europe" -Force
         azPSVersion: 
           latest
@@ -85,7 +85,6 @@ jobs:
           az deployment group create \
           --template-file ${{ env.bicepfilePath }} \
           -g ${{ env.resourceGroupName }}
-          --verbose
 
   Compliancy-Scan:
     runs-on: ubuntu-latest
