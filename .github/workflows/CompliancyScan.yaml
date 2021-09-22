@@ -13,11 +13,10 @@ jobs:
     - name: Azure PowerShell Action
       uses: Azure/powershell@v1
       with:
-        scopes: |
-          /subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
         # Specify the Az PowerShell script here.
         inlineScript: 
-          New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe"
+          Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
+          New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe" 
         # Azure PS version to be used to execute the script, example: 1.8.0, 2.8.0, 3.4.0. To use the latest version, specify "latest".
         azPSVersion: 
           latest
