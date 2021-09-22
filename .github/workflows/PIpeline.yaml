@@ -30,15 +30,13 @@ jobs:
       with:
         inlineScript: |
           Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
-          New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe" -Force
+          New-AzResourceGroup -Name ${{ env.resourceGroupName }} -Location "West Europe" -Force
         azPSVersion: 
           latest
 
   Test-Deployment:
     runs-on: ubuntu-latest
     needs: Create-ResourceGroup
-    environment:
-      name: VMGuestOSPolicies.dev
     steps:
     - name: Checkout
       uses: actions/checkout@v2.3.4
@@ -64,12 +62,33 @@ jobs:
       uses: Azure/powershell@v1
       with:
         inlineScript: |
-          New-AzResourceGroupDeployment -ResourceGroupName Dev-Pels-02 -TemplateFile ./main.json -WhatIf
+          New-AzResourceGroupDeployment -ResourceGroupName ${{ env.resourceGroupName }} -TemplateFile ./main.json -WhatIf
+        azPSVersion: latest
+
+  Deploy-Template:
+    runs-on: ubuntu-latest
+    needs: Test-Deployment
+    environment:
+      name: VMGuestOSPolicies.dev
+    steps:
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true
+
+    - name: Azure PowerShell Action
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          New-AzResourceGroupDeployment -ResourceGroupName ${{ env.resourceGroupName }} -TemplateFile ./main.json -WhatIf
         azPSVersion: latest
 
   Compliancy-Scan:
     runs-on: ubuntu-latest
-    needs: Test-Deployment
+    needs: Deploy-Template
+    timeout-minutes: 15
     steps:
     - name: Login to Azure
       uses: azure/login@v1
