@@ -70,6 +70,9 @@ jobs:
     needs: Test-Deployment
     steps:
 
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+
     - name: Login to Azure
       uses: azure/login@v1
       with:
@@ -89,9 +92,6 @@ jobs:
     needs: Deploy-Template
     timeout-minutes: 15
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.3.4
-
     - name: Login to Azure
       uses: azure/login@v1
       with:
