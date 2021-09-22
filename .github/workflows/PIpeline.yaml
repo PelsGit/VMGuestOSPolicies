@@ -80,9 +80,9 @@ jobs:
       uses: Azure/cli@1.0.4
       with:
         inlineScript: |
-              az deployment group create  \
-              –template-file  ${{ env.bicepfilePath }}  \
-              –resource-group  ${{ env.resourceGroupName }}
+          az deployment group create \
+          --template-file main.bicep \
+          -g Dev-Pels-01
 
   Compliancy-Scan:
     runs-on: ubuntu-latest
