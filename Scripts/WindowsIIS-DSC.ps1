@@ -4,7 +4,7 @@ Configuration WebsiteTest {
     Import-DscResource -ModuleName PsDesiredStateConfiguration
 
     # The Node statement specifies which targets this configuration will be applied to.
-    Node 'localhost' {
+    Node $env:ComputerName {
 
         # The first resource block ensures that the Web-Server (IIS) feature is enabled.
         WindowsFeature WebServer {
@@ -20,3 +20,6 @@ Configuration WebsiteTest {
         }
     }
 }
+WebsiteTest -OutputPath C:\Local\WebsiteTest
+
+Start-DscConfiguration -Path C:\Local\WebsiteTest -Wait -Verbose -Force

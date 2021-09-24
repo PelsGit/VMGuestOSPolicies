@@ -1,12 +1,9 @@
 Configuration Install7Zip {
 
-    # Import the module that contains the resources we're using.
-    Import-DscResource -ModuleName PsDesiredStateConfiguration
+    Import-DscResource -ModuleName PsDesiredStateConfiguration 
 
-    # The Node statement specifies which targets this configuration will be applied to.
-    Node 'localhost' {
+    Node $env:ComputerName {
 
-        # The first resource block ensures that the Web-Server (IIS) feature is enabled.
         Package 7zip {
             Ensure    = "Present"
             Name      = "7-Zip 19.00"
@@ -15,3 +12,6 @@ Configuration Install7Zip {
         }
     }
 }
+Install7Zip -OutputPath C:\Local\Install7Zip
+
+Start-DscConfiguration -Path C:\Local\WebsiteTest -Wait -Verbose -Force
