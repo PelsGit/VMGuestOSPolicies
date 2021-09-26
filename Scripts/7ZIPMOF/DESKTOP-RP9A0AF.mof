@@ -1,0 +1,48 @@
+/*
+@TargetNode='DESKTOP-RP9A0AF'
+@GeneratedBy=rutge
+@GenerationDate=09/25/2021 18:17:26
+@GenerationHost=DESKTOP-RP9A0AF
+*/
+
+instance of MSFT_PackageResource as $MSFT_PackageResource1ref
+{
+ModuleName = "PSDSCResources";
+ ResourceID = "[Package]7zip";
+ SourceInfo = "C:\\Local\\Repos\\VMPolicies\\VMGuestOSPolicies\\Scripts\\7ZIP-DSC.ps1::8::9::Package";
+ ProductId = "23170F69-40C1-2702-1900-000001000000";
+ Ensure = "Present";
+ Path = "https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip";
+ Name = "7-Zip 19.00";
+
+ModuleVersion = "2.12.0.0";
+
+ ConfigurationName = "Install7Zip";
+
+};
+instance of OMI_ConfigurationDocument
+
+
+                    {
+ Version="2.0.0";
+
+
+                        MinimumCompatibleVersion = "1.0.0";
+
+
+                        CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+
+
+                        Author="rutge";
+
+
+                        GenerationDate="09/25/2021 18:17:26";
+
+
+                        GenerationHost="DESKTOP-RP9A0AF";
+
+
+                        Name="Install7Zip";
+
+
+                    };

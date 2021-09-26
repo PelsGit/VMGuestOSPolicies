@@ -1,7 +1,7 @@
 Configuration WebsiteTest {
 
     # Import the module that contains the resources we're using.
-    Import-DscResource -ModuleName PsDesiredStateConfiguration
+    Import-DscResource -ModuleName 'PSDscResources'
 
     # The Node statement specifies which targets this configuration will be applied to.
     Node $env:ComputerName {
@@ -20,6 +20,6 @@ Configuration WebsiteTest {
         }
     }
 }
-WebsiteTest -OutputPath C:\Local\WebsiteTest
+WebsiteTest -OutputPath C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\WindowsIIS
 
-Start-DscConfiguration -Path C:\Local\WebsiteTest -Wait -Verbose -Force
+Start-DscConfiguration -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\WindowsIIS -Wait -Verbose -Force

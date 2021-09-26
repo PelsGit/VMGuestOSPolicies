@@ -1,0 +1,48 @@
+/*
+@TargetNode='vm-001-weu'
+@GeneratedBy=admin01
+@GenerationDate=09/24/2021 17:31:35
+@GenerationHost=vm-001-weu
+*/
+
+instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+{
+Ensure = "Present";
+ ResourceID = "[WindowsFeature]WebServer";
+ Name = "Web-Server";
+ ModuleName = "PSDSCResources";
+ SourceInfo = "C:\\Local\\Scripts\\WindowsIIS-DSC.ps1::10::9::WindowsFeature";
+
+ModuleVersion = "2.12.0.0";
+ ConfigurationName = "WebsiteTest";
+};
+instance of MSFT_FileDirectoryConfiguration as $MSFT_FileDirectoryConfiguration1ref
+{
+Ensure = "Present";
+ ResourceID = "[File]WebsiteContent";
+ ModuleName = "PSDSCResources";
+ SourceInfo = "C:\\Local\\Scripts\\WindowsIIS-DSC.ps1::16::9::File";
+ SourcePath = "c:\\test\\index.htm";
+ DestinationPath = "c:\\inetpub\\wwwroot";
+
+ModuleVersion = "2.12.0.0";
+ ConfigurationName = "WebsiteTest";
+};
+instance of OMI_ConfigurationDocument
+
+                    {
+ Version="2.0.0";
+
+                        MinimumCompatibleVersion = "1.0.0";
+
+                        CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+
+                        Author="admin01";
+
+                        GenerationDate="09/24/2021 17:31:35";
+
+                        GenerationHost="vm-001-weu";
+
+                        Name="WebsiteTest";
+
+                    };
