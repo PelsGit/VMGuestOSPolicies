@@ -1,9 +1,14 @@
 # Basic deployments
+
 New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe"
 New-AzResourceGroupDeployment -ResourceGroupName Dev-Pels-02 -TemplateFile main.bicep -Confirm -verbose
 
 Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
 New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe" 
+
+#Assign Prerequisite Built-in PolicySet to a management group
+$PolicySet = Get-AzPolicySetDefinition -Name "12794019-7a00-42cf-95c2-882eed337cc8"
+New-AzPolicyAssignment -Name VM-Guest-OS-Prereq -Scope "/providers/Microsoft.Management/managementGroups/MG-CORE" -DisplayName VM-Guest-OS-Prereq -PolicySetDefinition $PolicySet -AssignIdentity -Location 'westeurope'
 
 # Deploy Storage Account to publish Guest Configuration
 
@@ -29,12 +34,24 @@ New-GuestConfigurationPolicy `
   -Verbose
 
   #Create Policy Definition scoped to a subscription
+  $Subscription = Get-AzSubscription -SubscriptionName 'Visual Studio Enterprise'
+
 New-AzPolicyDefinition `
     -Name 'VM-Guest-Policy-7Zip'
     -Policy 'C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\7ZIP\VM-Guest-Policy-7Zip.json' `
-    -SubscriptionId 'fffb0c65-e90a-4b5d-adac-a5d6d399e2cc'
+    -SubscriptionId $($Subscription.Id)
 
 New-AzPolicyDefinition `
     -Name 'VM-Guest-Policy-IIS' `
     -Policy 'C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\IIS\VM-Guest-Policy-IIS.json' `
-    -SubscriptionId 'fffb0c65-e90a-4b5d-adac-a5d6d399e2cc'
+    -SubscriptionId $($Subscription.Id)
+
+# Create Policy Initiative
+New-AzPolicySetDefinition -Name vm-guest-policy-set -PolicyDefinition .\Templates\VM-Guest-Policy-Set.json -Description 'This Policy initiative contains all the policy definitions for guest OS policies' -Metadata '{"category":"Guest Configuration"}'
+Set-AzPolicySetDefinition -Name vm-guest-policy-set -Description 'This Policy initiative contains all the policy definitions for guest OS policies' -Metadata '{"category":"Guest Configuration"}'
+
+#Assign Policy Initiative to subscription
+
+$Subscription = Get-AzSubscription -SubscriptionName 'Visual Studio Enterprise'
+$Policy = Get-AzPolicySetDefinition -Name 'vm-guest-policy-set'
+New-AzPolicyAssignment -Name 'GuestOSPolicyAssignment' -PolicySetDefinition $Policy -Scope "/subscriptions/$($Subscription.Id)" -AssignIdentity -Location 'west europe'

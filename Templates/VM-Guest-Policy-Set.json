@@ -1,0 +1,8 @@
+[
+          {
+            "policyDefinitionId": "/subscriptions/ID/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-7Zip"
+          },
+          {
+            "policyDefinitionId": "/subscriptions/ID/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-IIS"
+          }
+]
