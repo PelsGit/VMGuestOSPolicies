@@ -1,25 +1,20 @@
 Configuration WebsiteTest {
 
     # Import the module that contains the resources we're using.
-    Import-DscResource -ModuleName 'PSDscResources'
+    Import-DSCResource -ModuleName 'PSDscResources'
+    Import-DSCResource -ModuleName 'xWebAdministration'
+    
 
     # The Node statement specifies which targets this configuration will be applied to.
-    Node $env:ComputerName {
+    Node 'localhost' {
 
         # The first resource block ensures that the Web-Server (IIS) feature is enabled.
         WindowsFeature WebServer {
             Ensure = "Present"
             Name   = "Web-Server"
         }
-
-        # The second resource block ensures that the website content copied to the website root folder.
-        File WebsiteContent {
-            Ensure = 'Present'
-            SourcePath = 'c:\test\index.htm'
-            DestinationPath = 'c:\inetpub\wwwroot'
-        }
     }
 }
-WebsiteTest -OutputPath C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\WindowsIIS
+WebsiteTest -OutputPath C:\Local\Repos\VMPolicies\VMGuestOSPolicies\MofFolders\WindowsIIS
 
-Start-DscConfiguration -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\WindowsIIS -Wait -Verbose -Force
+#Start-DscConfiguration -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\WindowsIIS -Wait -Verbose -Force

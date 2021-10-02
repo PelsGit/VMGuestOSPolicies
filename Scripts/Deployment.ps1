@@ -14,20 +14,45 @@ New-AzPolicyAssignment -Name VM-Guest-OS-Prereq -Scope "/providers/Microsoft.Man
 
 $ResourceGroup = "Dev-Pels-GC"
 $Location = "West Europe"
-$StorageAccountName = sapelstest69
+$StorageAccountName = "sapelstest69"
 New-AzResourceGroup -Name $ResourceGroup -Location $Location
 New-AzStorageAccount -ResourceGroupName $ResourceGroup -Name $StorageAccountName -SkuName 'Standard_LRS' -Location $Location | New-AzStorageContainer -Name guestconfiguration -Permission Blob
 
-Publish-GuestConfigurationPackage -Path ./7Zip.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+#Publish Guest Packages to SA
+$ContentURI7ZIP = Publish-GuestConfigurationPackage -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\7Zip\7Zip.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURI7Baseline = Publish-GuestConfigurationPackage -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\Baseline\Baseline.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURIIIS = Publish-GuestConfigurationPackage -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\IIS\IIS.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
 
 # Create New Custom Guest Policy Definition
 
 New-GuestConfigurationPolicy `
   -PolicyId 'VM-Guest-Policy-IIS' `
-  -ContentUri 'https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip?sv=2020-04-08&st=2021-09-25T16%3A31%3A06Z&se=2024-09-25T16%3A31%3A06Z&sr=b&sp=rl&sig=wOzdhDN%2F7VDzNs6lznMSA6Br5oDpYOWIrsGh4IxY7eI%3D'`
+  -ContentUri $ContentURIIIS `
   -DisplayName 'VM Guest Policy IIS Deploy' `
   -Description 'This Policy deploys IIS on a VM' `
   -Path './policies/IIS' `
+  -Platform 'Windows' `
+  -Version 1.0.0 `
+  -Mode 'ApplyAndAutoCorrect' `
+  -Verbose
+
+  New-GuestConfigurationPolicy `
+  -PolicyId 'VM-Guest-Policy-7Zip' `
+  -ContentUri $ContentURI7ZIP `
+  -DisplayName 'VM Guest Policy 7Zip Deploy' `
+  -Description 'This Policy deploys 7Zip on a VM' `
+  -Path './policies/7zip' `
+  -Platform 'Windows' `
+  -Version 1.0.0 `
+  -Mode 'ApplyAndAutoCorrect' `
+  -Verbose
+
+  New-GuestConfigurationPolicy `
+  -PolicyId 'VM-Guest-Policy-Baseline' `
+  -ContentUri $ContentURI7Baseline `
+  -DisplayName 'VM Guest Policy Baseline Deploy' `
+  -Description 'This Policy deploys Baseline Security settings on a VM' `
+  -Path './policies/baseline' `
   -Platform 'Windows' `
   -Version 1.0.0 `
   -Mode 'ApplyAndAutoCorrect' `
@@ -37,13 +62,18 @@ New-GuestConfigurationPolicy `
   $Subscription = Get-AzSubscription -SubscriptionName 'Visual Studio Enterprise'
 
 New-AzPolicyDefinition `
-    -Name 'VM-Guest-Policy-7Zip'
-    -Policy 'C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\7ZIP\VM-Guest-Policy-7Zip.json' `
+    -Name 'VM-Guest-Policy-7Zip' `
+    -Policy C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\7ZIP\VM-Guest-Policy-7Zip.json `
     -SubscriptionId $($Subscription.Id)
 
 New-AzPolicyDefinition `
     -Name 'VM-Guest-Policy-IIS' `
-    -Policy 'C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\IIS\VM-Guest-Policy-IIS.json' `
+    -Policy C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\IIS\VM-Guest-Policy-IIS.json `
+    -SubscriptionId $($Subscription.Id)
+
+New-AzPolicyDefinition `
+    -Name 'VM-Guest-Policy-Base' `
+    -Policy 'C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\policies\baseline\VM-Guest-Policy-Base.json' `
     -SubscriptionId $($Subscription.Id)
 
 # Create Policy Initiative

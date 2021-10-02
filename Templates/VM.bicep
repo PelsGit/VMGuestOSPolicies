@@ -60,7 +60,7 @@ resource vmeu 'Microsoft.Compute/virtualMachines@2020-06-01' = {
       imageReference: {
         publisher: 'MicrosoftWindowsServer'
         offer: 'WindowsServer'
-        sku: '2019-Datacenter'
+        sku: '2016-Datacenter'
         version: 'latest'
       }
     }

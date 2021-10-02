@@ -1,9 +1,6 @@
 Configuration Install7Zip {
 
-    Import-DscResource -ModuleName 'PSDscResources'
-    Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
-
-    Node $env:ComputerName {
+    Node 'localhost' {
 
         Package 7zip {
             Ensure    = "Present"
@@ -13,6 +10,6 @@ Configuration Install7Zip {
         }
     }
 }
-Install7Zip -OutputPath C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\7ZIPMOF
+Install7Zip -OutputPath C:\Local\Repos\VMPolicies\VMGuestOSPolicies\MofFolders\7ZIPMOF
 
-Start-DscConfiguration -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\7ZIPMOF -Wait -Verbose -Force
+#Start-DscConfiguration -Path C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Scripts\7ZIPMOF -Wait -Verbose -Force

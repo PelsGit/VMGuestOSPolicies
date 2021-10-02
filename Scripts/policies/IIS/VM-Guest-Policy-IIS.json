@@ -1,21 +1,18 @@
 {
-    "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-7Zip",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "VM-Guest-Policy-7Zip",
     "properties": {
-        "displayName": "VM Guest Policy 7Zip Deploy",
+        "displayName": "VM Guest Policy IIS Deploy",
         "policyType": "Custom",
         "mode": "Indexed",
-        "description": "This Policy deploys 7ZIp on a VM",
+        "description": "This Policy deploys IIS on a VM",
         "metadata": {
             "version": "1.0.0",
             "category": "Guest Configuration",
             "guestConfiguration": {
-                "name": "7Zip",
+                "name": "IIS",
                 "version": "1.0.0",
                 "contentType": "Custom",
-                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/7Zip.zip?sv=2020-04-08&st=2021-09-25T16%3A31%3A42Z&se=2024-09-25T16%3A31%3A42Z&sr=b&sp=rl&sig=0FWQC%2BDYo7RUg9e3h1o7t6%2BI%2BubIx%2FxT8%2BJS21jphnE%3D",
-                "contentHash": "634C5A5E646309AA1CF68E5A2075D11DFB13866CF6A0B9490C7D85DE8E9BCEE6",
+                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A37Z&se=2024-10-02T10%3A55%3A37Z&sr=b&sp=rl&sig=1WSCHQiKuEIZfkltyza4RYbwZGjgwS36TxJpSPooyVA%3D",
+                "contentHash": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA",
                 "configurationParameter": {}
                 },
                 "requiredProviders": [
@@ -220,7 +217,7 @@
                     "effect": "deployIfNotExists",
                     "details": {
                         "type": "Microsoft.GuestConfiguration/guestConfigurationAssignments",
-                        "name": "7Zip",
+                        "name": "IIS",
                         "roleDefinitionIds": [
                             "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                         ],
@@ -228,7 +225,7 @@
                             "allOf": [
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/contentHash",
-                                    "equals": "634C5A5E646309AA1CF68E5A2075D11DFB13866CF6A0B9490C7D85DE8E9BCEE6"
+                                    "equals": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA"
                                 },
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
@@ -250,13 +247,13 @@
                                         "value": "[field('type')]"
                                     },
                                     "configurationName": {
-                                        "value": "7Zip"
+                                        "value": "IIS"
                                     },
                                     "contentUri": {
-                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/7Zip.zip?sv=2020-04-08&st=2021-09-25T16%3A31%3A42Z&se=2024-09-25T16%3A31%3A42Z&sr=b&sp=rl&sig=0FWQC%2BDYo7RUg9e3h1o7t6%2BI%2BubIx%2FxT8%2BJS21jphnE%3D"
+                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A37Z&se=2024-10-02T10%3A55%3A37Z&sr=b&sp=rl&sig=1WSCHQiKuEIZfkltyza4RYbwZGjgwS36TxJpSPooyVA%3D"
                                     },
                                     "contentHash": {
-                                        "value": "634C5A5E646309AA1CF68E5A2075D11DFB13866CF6A0B9490C7D85DE8E9BCEE6"
+                                        "value": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA"
                                     }
                                 },
                                 "template": {
@@ -324,5 +321,8 @@
                             }
                         }
                     }
-                }
+                },
+                "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-IIS",
+                "type": "Microsoft.Authorization/policyDefinitions",
+                "name": "VM-Guest-Policy-IIS"
             }
