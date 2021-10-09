@@ -1,4 +1,5 @@
 # VMGuestOSPolicies
+
 This Repo contains scripts and Bicep templates to create and deploy custom Azure Virtual Machine GuestPolicies with DeployifNotExists effect. This is currently a preview feature, created by Microsoft. More can be found here:
 
 https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/governance/policy/concepts/guest-configuration-custom.md
@@ -28,3 +29,4 @@ I created a Yaml Pipeline using Github Actions to deploy the Main.bicep. This wi
 * Run a custom compliancy task. If the compliancy is non-compliant, the pipeline will fail.
 
 [![.github/workflows/PIpeline.yaml](https://github.com/PelsGit/VMGuestOSPolicies/actions/workflows/PIpeline.yaml/badge.svg)](https://github.com/PelsGit/VMGuestOSPolicies/actions/workflows/PIpeline.yaml)
+
