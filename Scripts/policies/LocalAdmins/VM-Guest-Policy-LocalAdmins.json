@@ -1,18 +1,18 @@
 {
     "properties": {
-        "displayName": "VM Guest Policy Baseline Deploy",
+        "displayName": "VM Guest Policy Local Admin Deploy",
         "policyType": "Custom",
         "mode": "Indexed",
-        "description": "This Policy deploys Baseline Security settings on a VM",
+        "description": "This Policy creates a local admin and group",
         "metadata": {
             "version": "1.0.0",
             "category": "Guest Configuration",
             "guestConfiguration": {
-                "name": "Baseline",
+                "name": "localAdmins",
                 "version": "1.0.0",
                 "contentType": "Custom",
-                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/Baseline.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A25Z&se=2024-10-02T10%3A55%3A25Z&sr=b&sp=rl&sig=E8YHC9Dtoh9078oKoL2zRGJG9ZoIK4BOThMJ%2BZ3jkIA%3D",
-                "contentHash": "8FBC83773FB5B11746206EAB2B7CF9D474EF448C76421C854935A441970F0508",
+                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/localAdmins.zip?sv=2020-04-08&st=2021-10-09T13%3A42%3A12Z&se=2024-10-09T13%3A42%3A12Z&sr=b&sp=rl&sig=%2BcHnOZhf6xoC5J04kl4FkkfoBjWSa163wtuIvF3ulNo%3D",
+                "contentHash": "6392AB02210522A6F4BE1C9517FC37941F424A6F5F60AFF1F6108E298385DA9A",
                 "configurationParameter": {}
                 },
                 "requiredProviders": [
@@ -217,7 +217,7 @@
                     "effect": "deployIfNotExists",
                     "details": {
                         "type": "Microsoft.GuestConfiguration/guestConfigurationAssignments",
-                        "name": "Baseline",
+                        "name": "localAdmins",
                         "roleDefinitionIds": [
                             "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                         ],
@@ -225,7 +225,7 @@
                             "allOf": [
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/contentHash",
-                                    "equals": "8FBC83773FB5B11746206EAB2B7CF9D474EF448C76421C854935A441970F0508"
+                                    "equals": "6392AB02210522A6F4BE1C9517FC37941F424A6F5F60AFF1F6108E298385DA9A"
                                 },
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
@@ -247,13 +247,13 @@
                                         "value": "[field('type')]"
                                     },
                                     "configurationName": {
-                                        "value": "Baseline"
+                                        "value": "localAdmins"
                                     },
                                     "contentUri": {
-                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/Baseline.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A25Z&se=2024-10-02T10%3A55%3A25Z&sr=b&sp=rl&sig=E8YHC9Dtoh9078oKoL2zRGJG9ZoIK4BOThMJ%2BZ3jkIA%3D"
+                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/localAdmins.zip?sv=2020-04-08&st=2021-10-09T13%3A42%3A12Z&se=2024-10-09T13%3A42%3A12Z&sr=b&sp=rl&sig=%2BcHnOZhf6xoC5J04kl4FkkfoBjWSa163wtuIvF3ulNo%3D"
                                     },
                                     "contentHash": {
-                                        "value": "8FBC83773FB5B11746206EAB2B7CF9D474EF448C76421C854935A441970F0508"
+                                        "value": "6392AB02210522A6F4BE1C9517FC37941F424A6F5F60AFF1F6108E298385DA9A"
                                     }
                                 },
                                 "template": {
@@ -322,7 +322,7 @@
                         }
                     }
                 },
-                "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-Baseline",
+                "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-LocalAdmins",
                 "type": "Microsoft.Authorization/policyDefinitions",
-                "name": "VM-Guest-Policy-Baseline"
+                "name": "VM-Guest-Policy-LocalAdmins"
             }

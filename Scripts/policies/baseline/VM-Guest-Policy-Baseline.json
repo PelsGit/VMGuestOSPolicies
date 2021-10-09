@@ -1,18 +1,18 @@
 {
     "properties": {
-        "displayName": "VM Guest Policy IIS Deploy",
+        "displayName": "VM Guest Policy Baseline Deploy",
         "policyType": "Custom",
         "mode": "Indexed",
-        "description": "This Policy deploys IIS on a VM",
+        "description": "This Policy deploys Baseline Security settings on a VM",
         "metadata": {
             "version": "1.0.0",
             "category": "Guest Configuration",
             "guestConfiguration": {
-                "name": "IIS",
+                "name": "Baseline",
                 "version": "1.0.0",
                 "contentType": "Custom",
-                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A37Z&se=2024-10-02T10%3A55%3A37Z&sr=b&sp=rl&sig=1WSCHQiKuEIZfkltyza4RYbwZGjgwS36TxJpSPooyVA%3D",
-                "contentHash": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA",
+                "contentUri": "https://sapelstest69.blob.core.windows.net/guestconfiguration/Baseline.zip?sv=2020-04-08&st=2021-10-09T13%3A42%3A08Z&se=2024-10-09T13%3A42%3A08Z&sr=b&sp=rl&sig=HcCMVFWz2gfYHmsKvAg%2FjBg9yz8k7hRWxxQH6MpKTGQ%3D",
+                "contentHash": "C8BAD41F7ABC936D513FD1BFA1B49C4BA57AEB9E2E4079EBD636D699E334E775",
                 "configurationParameter": {}
                 },
                 "requiredProviders": [
@@ -217,7 +217,7 @@
                     "effect": "deployIfNotExists",
                     "details": {
                         "type": "Microsoft.GuestConfiguration/guestConfigurationAssignments",
-                        "name": "IIS",
+                        "name": "Baseline",
                         "roleDefinitionIds": [
                             "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                         ],
@@ -225,7 +225,7 @@
                             "allOf": [
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/contentHash",
-                                    "equals": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA"
+                                    "equals": "C8BAD41F7ABC936D513FD1BFA1B49C4BA57AEB9E2E4079EBD636D699E334E775"
                                 },
                                 {
                                     "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
@@ -247,13 +247,13 @@
                                         "value": "[field('type')]"
                                     },
                                     "configurationName": {
-                                        "value": "IIS"
+                                        "value": "Baseline"
                                     },
                                     "contentUri": {
-                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/IIS.zip?sv=2020-04-08&st=2021-10-02T10%3A55%3A37Z&se=2024-10-02T10%3A55%3A37Z&sr=b&sp=rl&sig=1WSCHQiKuEIZfkltyza4RYbwZGjgwS36TxJpSPooyVA%3D"
+                                        "value": "https://sapelstest69.blob.core.windows.net/guestconfiguration/Baseline.zip?sv=2020-04-08&st=2021-10-09T13%3A42%3A08Z&se=2024-10-09T13%3A42%3A08Z&sr=b&sp=rl&sig=HcCMVFWz2gfYHmsKvAg%2FjBg9yz8k7hRWxxQH6MpKTGQ%3D"
                                     },
                                     "contentHash": {
-                                        "value": "315B814F90B5DA97FCA6A8BAE1F61C3268E52C465A24E0FA00DA6541526EF3AA"
+                                        "value": "C8BAD41F7ABC936D513FD1BFA1B49C4BA57AEB9E2E4079EBD636D699E334E775"
                                     }
                                 },
                                 "template": {
@@ -322,7 +322,7 @@
                         }
                     }
                 },
-                "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-IIS",
+                "id": "/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-Baseline",
                 "type": "Microsoft.Authorization/policyDefinitions",
-                "name": "VM-Guest-Policy-IIS"
+                "name": "VM-Guest-Policy-Baseline"
             }
