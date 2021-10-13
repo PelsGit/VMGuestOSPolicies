@@ -3,27 +3,24 @@
 New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe"
 New-AzResourceGroupDeployment -ResourceGroupName Dev-Pels-02 -TemplateFile main.bicep -Confirm -verbose
 
-Select-AzSubscription fffb0c65-e90a-4b5d-adac-a5d6d399e2cc
-New-AzResourceGroup -Name Dev-Pels-02 -Location "West Europe" 
-
 #Assign Prerequisite Built-in PolicySet to a management group
 $Subscription = Get-AzSubscription -SubscriptionName 'Visual Studio Enterprise'
-$PolicySet = Get-AzPolicySetDefinition -Name $Subscription
+$PolicySet = Get-AzPolicySetDefinition -Id /providers/Microsoft.Authorization/policySetDefinitions/12794019-7a00-42cf-95c2-882eed337cc8
 New-AzPolicyAssignment -Name VM-Guest-OS-Prereq -Scope "/providers/Microsoft.Management/managementGroups/MG-CORE" -DisplayName VM-Guest-OS-Prereq -PolicySetDefinition $PolicySet -AssignIdentity -Location 'westeurope'
 
 # Deploy Storage Account to publish Guest Configuration
 
-$ResourceGroup = "Dev-Pels-GC"
+$ResourceGroup = "RGName" #provide the name of the RG
 $Location = "West Europe"
-$StorageAccountName = "sapelstest69"
+$StorageAccountName = "saname" #provide the name of the storageaccount in lowercase
 New-AzResourceGroup -Name $ResourceGroup -Location $Location
 New-AzStorageAccount -ResourceGroupName $ResourceGroup -Name $StorageAccountName -SkuName 'Standard_LRS' -Location $Location | New-AzStorageContainer -Name guestconfiguration -Permission Blob
 
 #Publish Guest Packages to SA
-$ContentURIMSI = Publish-GuestConfigurationPackage -Path C:\Local\vm-001\Local\Scripts\InstallMSI\InstallMSI.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
-$ContentURI7Baseline = Publish-GuestConfigurationPackage -Path C:\Local\vm-001\Local\Scripts\Baseline\Baseline.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
-$ContentURFeatureSet = Publish-GuestConfigurationPackage -Path C:\Local\vm-001\Local\Scripts\FeatureSet\FeatureSet.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
-$ContentURLocalAdmins = Publish-GuestConfigurationPackage -Path C:\Local\vm-001\Local\Scripts\localadmins\localAdmins.zip -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURIMSI = Publish-GuestConfigurationPackage -Path Pathtopackagezipfile -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURI7Baseline = Publish-GuestConfigurationPackage -Path Pathtopackagezipfile -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURFeatureSet = Publish-GuestConfigurationPackage -Path Pathtopackagezipfile -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
+$ContentURLocalAdmins = Publish-GuestConfigurationPackage -Path Pathtopackagezipfile -ResourceGroupName $ResourceGroup -StorageAccountName $StorageAccountName | % ContentUri
 
 # Create New Custom Guest Policy Definition
 
@@ -96,7 +93,7 @@ New-AzPolicyDefinition `
     -SubscriptionId $($Subscription.Id)
 
 # Create Policy Initiative and assign it to subscription.
-New-AzSubscriptionDeployment -TemplateFile C:\Local\Repos\VMPolicies\VMGuestOSPolicies\Templates\PolicySet.bicep -Location 'west europe'
+New-AzSubscriptionDeployment -TemplateFile path_to_bicep_template -Location 'west europe'
 
 #Assign Policy Initiative to subscription via powershell (alternative)
 $Subscription = Get-AzSubscription -SubscriptionName 'Visual Studio Enterprise'
