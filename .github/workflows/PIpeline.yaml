@@ -68,19 +68,23 @@ jobs:
     needs: Deploy-Template
 
     steps:
-    - name: Sleep Action
-      uses: juliangruber/sleep-action@v1.0.1
-      with:
-        time: 15m
-
     - name: Login to Azure
       uses: azure/login@v1
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true
 
-    - name: Check for resource compliance
-      uses: azure/policy-compliance-scan@v0
+    - name: Wait for 15 minutes
+      uses: Azure/powershell@v1
       with:
-        scopes: |
-          /subscriptions/${{secrets.AZURE_SUBSCRIPTIONID}}/resourceGroups/${{ env.resourceGroupName }}
+        inlineScript: |
+          Start-Sleep -s 900
+        azPSVersion: latest
+
+    - name: Run compliancy Scan
+      uses: Azure/powershell@v1
+      with:
+        inlineScript: |
+          Select-AzSubscription ${{secrets.AZURE_SUBSCRIPTIONID}}
+          Start-AzPolicyComplianceScan -ResourceGroupName ${{ env.resourceGroupName }}
+        azPSVersion: latest

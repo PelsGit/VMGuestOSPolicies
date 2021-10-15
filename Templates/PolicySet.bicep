@@ -5,16 +5,16 @@ resource PolicySet 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
   properties: {
     policyDefinitions: [
       {
-        policyDefinitionId: '/subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-Base'
+        policyDefinitionId: 'PolicyDefinitionID'
       }
       {
-        policyDefinitionId: '/subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-Features'
+        policyDefinitionId: 'PolicyDefinitionID'
       }
       {
-        policyDefinitionId: '/subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-MSI'
+        policyDefinitionId: 'PolicyDefinitionID'
       }
       {
-        policyDefinitionId: '/subscriptions/fffb0c65-e90a-4b5d-adac-a5d6d399e2cc/providers/Microsoft.Authorization/policyDefinitions/VM-Guest-Policy-LocalAdmins'
+        policyDefinitionId: 'PolicyDefinitionID'
       }
     ]
   }
