@@ -1,0 +1,103 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1008.15138",
+      "templateHash": "3017880362497814342"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.DataFactory/factories",
+      "apiVersion": "2018-06-01",
+      "name": "datafactory-pels-DF88",
+      "location": "westeurope",
+      "properties": {
+        "publicNetworkAccess": "Disabled",
+        "encryption": {
+          "identity": {
+            "userAssignedIdentity": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ManagedIdentityDF')]"
+          },
+          "vaultBaseUrl": "[reference(resourceId('Microsoft.KeyVault/vaults', 'Keyvault-pels-18')).vaultUri]",
+          "keyName": "KeyvaultKey6",
+          "keyVersion": "[reference(resourceId('Microsoft.KeyVault/vaults/keys', 'Keyvault-pels-18', 'KeyvaultKey6')).keyUriWithVersion]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', 'Keyvault-pels-18')]",
+        "[resourceId('Microsoft.KeyVault/vaults/keys', 'Keyvault-pels-18', 'KeyvaultKey6')]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ManagedIdentityDF')]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2019-09-01",
+      "name": "Keyvault-pels-18",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "enabledForDeployment": true,
+        "enabledForTemplateDeployment": true,
+        "enabledForDiskEncryption": true,
+        "tenantId": "79c96093-4cd3-4d06-bfbb-c46c1d47c7a7",
+        "accessPolicies": [],
+        "sku": {
+          "name": "premium",
+          "family": "A"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/accessPolicies",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[format('{0}/{1}', 'Keyvault-pels-18', 'add')]",
+      "properties": {
+        "accessPolicies": [
+          {
+            "permissions": {
+              "keys": [
+                "get",
+                "unwrapKey",
+                "wrapKey"
+              ]
+            },
+            "tenantId": "79c96093-4cd3-4d06-bfbb-c46c1d47c7a7",
+            "objectId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ManagedIdentityDF')).principalId]"
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', 'Keyvault-pels-18')]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', 'ManagedIdentityDF')]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/keys",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[format('{0}/{1}', 'Keyvault-pels-18', 'KeyvaultKey6')]",
+      "properties": {
+        "kty": "RSA",
+        "keySize": 2048,
+        "keyOps": [
+          "encrypt",
+          "decrypt",
+          "sign",
+          "verify",
+          "wrapKey",
+          "unwrapKey"
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', 'Keyvault-pels-18')]"
+      ]
+    },
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2018-11-30",
+      "name": "ManagedIdentityDF",
+      "location": "[resourceGroup().location]"
+    }
+  ]
+}
